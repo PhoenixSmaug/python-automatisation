@@ -1,6 +1,6 @@
 # A guide to Windows hotkey automatisation in Python
 
-<img src="./logo.ico" width="128" height="12" align="right" />
+![plot](./Logo.ico)
 
 ## Introduction
 
@@ -358,7 +358,7 @@ Win32api is already installed as a dependency of PyWinhook.
 #### Package schedule
 
 Often, certain routines should not only be triggered by hotkeys, but should also be called automatically every hour (for example, a backup script). The package schedule (`pip install schedule`) can be used for this. Since it runs in an endless loop similar to`pythoncom.PumpMessages()`, threads must be used to run both programmes side by side.
-```
+```python
 import os
 import pythoncom
 import pyWinhook
