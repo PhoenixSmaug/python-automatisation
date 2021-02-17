@@ -1,7 +1,5 @@
 # A guide to Windows hotkey automatisation in Python
 
-![plot](./Logo.ico)
-
 ## Introduction
 
 This guide aims to show how to build fully customisable hotkeys with Python. They can be used to easily automate repetitive tasks to increase productivity when working on a Windows machine. The use of Python as opposed to specialised programming languages such as AutoHotkey makes the initial setup more complex, but allows complete freedom in the implementation of the hotkey listener, proper multi-threading, a higher reliability and offers far more ready-made solutions, since Python is a much more popular. Originally, the guide is designed for Windows 10, but all examples have also been tested on Windows 7 and 8.
