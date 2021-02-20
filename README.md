@@ -12,7 +12,7 @@ This guide aims to show how to build fully customisable hotkeys with Python. The
 
 The [PyWinhook](https://github.com/Tungsteno74/pyWinhook) package enables us to interact with the Windows user input processing directly in Python. This allows triggering Python routines by pressing a hotkey combination. It also ensures that the keyboard input sent to the Python script is not additionally processed by another currently running program.
 
-We can install the package using:`pip install pyWinhook`
+We can install the package using: `pip install pyWinhook`
 
 Although it is not listed as a requirement, experience has shown that the installation fails if Swig is not installed on the system. It can be downloaded [here](https://sourceforge.net/projects/swig) and must be added to PATH.
 
@@ -42,11 +42,11 @@ hook.KeyDown = KeyPress
 hook.HookKeyboard()
 pythoncom.PumpMessages()
 ```
-The programme is divided into three sections, the initialisation, the listener and the routines. First, the initialisation is executed, which creates a keyboard input listener and then passes all events to it. The latter is implemented with the command`pythoncom.PumpMessages()`, which acts similar to a while true loop, so all lines below it are never executed.
+The programme is divided into three sections, the initialisation, the listener and the routines. First, the initialisation is executed, which creates a keyboard input listener and then passes all events to it. The latter is implemented with the command `pythoncom.PumpMessages()`, which acts similar to a while true loop, so all lines below it are never executed.
 
-Each time a keyboard key is pressed, the listener is called as the`KeyPress`function and the object event is passed. For the beginning, however, we are only interested in the attribute`.Key`, which contains the current key as a string. If the key pressed was *Esc* (`'Escape'`), false is returned, which ensures that this *Esc* is not sent to any other programme. In all other cases, true is returned and the keyboard input is forwarded normally to all other programmes. This demonstrates how important it is to be careful when tinkering with the logic of the listening section, as a wrong implementation could block all keyboard input. Therefore, it is highly advisable to always include an exit condition in the script.
+Each time a keyboard key is pressed, the listener is called as the `KeyPress` function and the object event is passed. For the beginning, however, we are only interested in the attribute `.Key`, which contains the current key as a string. If the key pressed was *Esc* (`'Escape'`), false is returned, which ensures that this *Esc* is not sent to any other programme. In all other cases, true is returned and the keyboard input is forwarded normally to all other programmes. This demonstrates how important it is to be careful when tinkering with the logic of the listening section, as a wrong implementation could block all keyboard input. Therefore, it is highly advisable to always include an exit condition in the script.
 
-Instead of calling the`Hotkey()`function in the routines section directly, we create a thread for this function and let it run. This has the distinct advantage that the listener does not have to wait until the execution of the function is complete. Otherwise, in a more complex system, the execution of the listener could take several seconds, resulting in significant keyboard input lag. Therefore, the top priority is to make the execution time of the listener as short as possible.
+Instead of calling the `Hotkey()` function in the routines section directly, we create a thread for this function and let it run. This has the distinct advantage that the listener does not have to wait until the execution of the function is complete. Otherwise, in a more complex system, the execution of the listener could take several seconds, resulting in significant keyboard input lag. Therefore, the top priority is to make the execution time of the listener as short as possible.
 
 #### Modifier
 
@@ -103,7 +103,7 @@ hook.KeyUp = KeyRelease
 hook.HookKeyboard()
 pythoncom.PumpMessages()
 ```
-Since we now also have a function in the listener section that is called as soon as a key is released again, we can store in an array which of the modifier keys are currently pressed. So now the`Hotkey()`function is only called when *Ctrl & Esc* are pressed at the same time. Of course, the selection of modifiers can be customised at will, for example by adding the 10 Numpad keys.
+Since we now also have a function in the listener section that is called as soon as a key is released again, we can store in an array which of the modifier keys are currently pressed. So now the `Hotkey()` function is only called when *Ctrl & Esc* are pressed at the same time. Of course, the selection of modifiers can be customised at will, for example by adding the 10 Numpad keys.
 
 #### Mouse listener
 
@@ -141,7 +141,7 @@ hook.HookMouse()
 pythoncom.PumpMessages()
 ```
 
-Here the event object is structured differently, the name of the button is stored in`.MessageName`, while`.Position`contains the current position on the screen.
+Here the event object is structured differently, the name of the button is stored in `.MessageName`, while `.Position` contains the current position on the screen.
 
 ### Autostart setup
 
@@ -171,7 +171,7 @@ So at startup, Windows runs *Task.vbs* with normal privileges, which calls the t
 
 #### Notification
 
-Generally, if a script is running invisibly in the background, it is advisable to include a hotkey routine to check whether the script is running at all. One solution would be to send a Windows notification, as the following function does (`pip install plyer`necessary):
+Generally, if a script is running invisibly in the background, it is advisable to include a hotkey routine to check whether the script is running at all. One solution would be to send a Windows notification, as the following function does (`pip install plyer` necessary):
 ```python
 import plyer
 
@@ -212,12 +212,12 @@ Or open the battery usage statistics in the settings:
 def OpenBatteryUsage():
     os.system('C:\\Windows\\SysWOW64\\explorer.exe ms-settings:batterysaver-usagedetails')
 ```
-Again, we get problems when the script runs as administrator. Then all programmes called by `os.system()`run with elevated privileges, which is a security risk and sometimes leads to unwanted behaviour. We can prevent that by implementing the following (assuming the user name is *abc*):
+Again, we get problems when the script runs as administrator. Then all programmes called by `os.system()` run with elevated privileges, which is a security risk and sometimes leads to unwanted behaviour. We can prevent that by implementing the following (assuming the user name is *abc*):
 ```python
 def OpenNotepadNonAdmin():
     os.popen('runas /user:abc /savecred "C:\\Windows\\System32\\notepad.exe"')
 ```
-However, before this is implemented, the command`runas /user:abc /savecred cmd.exe`should be executed once manually in the console. After you have entered your user password once, it will be saved by the`/savecred`flag. This way the Python script can use the command without having to enter the credentials itself.
+However, before this is implemented, the command `runas /user:abc /savecred cmd.exe` should be executed once manually in the console. After you have entered your user password once, it will be saved by the `/savecred` flag. This way the Python script can use the command without having to enter the credentials itself.
 
 An alternative way would be to create a separate task in the task scheduler for each program and then disable *Highest privileges*. However, this way no parameters can be passed to the program, which is necessary in some cases (see Functions for extended capabilites). For simple programs it is nevertheless a solution (assuming the task is called *Notepad* in the task folder *Auto*):
 ```python
@@ -227,7 +227,7 @@ def OpenNotepadNonAdmin():
 
 ### Strings
 
-Now we will look at how the Python programme itself can input text. For example, you could build a hotkey that automatically fills in your own mail address to shorten logins. The best Python package for this functionality that also supports special characters is keyboard and is installed with`pip install keyboard`. The function in the Routines Section is then structured as follows:
+Now we will look at how the Python programme itself can input text. For example, you could build a hotkey that automatically fills in your own mail address to shorten logins. The best Python package for this functionality that also supports special characters is keyboard and is installed with `pip install keyboard`. The function in the Routines Section is then structured as follows:
 ```python
 def WriteMail():
     keyboard.write('example@mailprovider.com')
@@ -239,7 +239,7 @@ def WriteGrettings():
     pyautogui.hotkey('shift', 'enter')
     keyboard.write('John Doe')
 ```
-However, there is a danger when inserting strings: The keyboard input that the programme generates with`keyboard.write()`is itself passed back to`KeyPress(event)`. So if in an implementation the keyboard press of *e* leads to the output of *hello*, the routine triggers itself and it leads to a crash. Fortunately, the Windows API allows you to distinguish between real user input and keyboard input generated by programmes. So you can avoid the problem by implementing the following return condition in`KeyPress(event)`and`KeyRelease(event)`:
+However, there is a danger when inserting strings: The keyboard input that the programme generates with `keyboard.write()` is itself passed back to `KeyPress(event)`. So if in an implementation the keyboard press of *e* leads to the output of *hello*, the routine triggers itself and it leads to a crash. Fortunately, the Windows API allows you to distinguish between real user input and keyboard input generated by programmes. So you can avoid the problem by implementing the following return condition in `KeyPress(event)` and `KeyRelease(event)`:
 ```python
 if event.Injected == 16:
     return True
@@ -253,11 +253,11 @@ Now we will talk about auxiliary functions that can make our hotkeys smarter. Fi
 ```python
 import subprocess
 
-def WindowExist(string_window):
-    call = 'TASKLIST', '/FI', 'imagename eq %s' % string_window
+def WindowExist(exe):
+    call = 'TASKLIST', '/FI', 'imagename eq %s' % exe
     output = subprocess.check_output(call).decode()
-    last_line = output.strip().split('\r\n')[-1]
-    return last_line.lower().startswith(string_window.lower())
+    end = output.strip().split('\r\n')[-1]
+    return end.lower().startswith(exe.lower())
 ```
 This implementation uses subprocess, a vanilla Python package and was developed by [ewerbody](https://stackoverflow.com/a/29275361). It can be used like this:
 ```python
@@ -355,7 +355,7 @@ Win32api is already installed as a dependency of PyWinhook.
 
 #### Package schedule
 
-Often, certain routines should not only be triggered by hotkeys, but should also be called automatically every hour (for example, a backup script). The package schedule (`pip install schedule`) can be used for this. Since it runs in an endless loop similar to`pythoncom.PumpMessages()`, threads must be used to run both programmes side by side.
+Often, certain routines should not only be triggered by hotkeys, but should also be called automatically every hour (for example, a backup script). The package schedule (`pip install schedule`) can be used for this. Since it runs in an endless loop similar to `pythoncom.PumpMessages()`, threads must be used to run both programmes side by side.
 ```python
 import os
 import pythoncom
@@ -409,7 +409,7 @@ def ScreenOff():
     win32gui.SendMessage(win32con.HWND_BROADCAST, win32con.WM_SYSCOMMAND, win32con.SC_MONITORPOWER, 2)
 
 def SleepMode():
-    for i in range(len(array_modifier)):  # Mark modifiers as released
+    for i in range(len(modifier)):  # Mark modifiers as released
         modifier[i] = False
     os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
 
@@ -547,7 +547,7 @@ def Unzip():
     else:
         ...
 ```
-With the help of the Vanilla Package zipfile, all selected files can be saved in a zip archive via`Zip()`. And`Unzip()`can unpack all zip files that are currently selected.
+With the help of the Vanilla Package zipfile, all selected files can be saved in a zip archive via `Zip()`. And `Unzip()` can unpack all zip files that are currently selected.
 
 ### Fast text editor
 
@@ -568,20 +568,20 @@ def GuiEditor():
     editorText = tkinter.Text(editor)  # Create text field
     editorText.grid(row=0, column=1, sticky="nsew")
 
-    editor.protocol("WM_DELETE_WINDOW", Gui_Editor_Exit)  # Conditions
-    editor.bind("<Escape>", Gui_Editor_Exit)
+    editor.protocol("WM_DELETE_WINDOW", GuiEditorExit)  # Conditions
+    editor.bind("<Escape>", GuiEditorExit)
     editorText.focus_set()  # Fokus window
-    editor.after(2, Gui_Editor_Top)  # Keep always in foreground
+    editor.after(2, GuiEditorTop)  # Keep always in foreground
 
     editor.mainloop()
 
-def Gui_Editor_Exit(*args):
+def GuiEditorExit(*args):
     win32clipboard.OpenClipboard()  # Save content to clipboard
     win32clipboard.SetClipboardText(editorText.get(1.0, tkinter.END), win32clipboard.CF_UNICODETEXT)
     win32clipboard.CloseClipboard()
     editor.destroy()
 
-def Gui_Editor_Top(): # Keep always in foreground
+def GuiEditorTop(): # Keep always in foreground
     win32gui.SetWindowPos(int(editor.frame(), 16), win32con.HWND_TOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
 ```
 With the vanilla package tkinter, a simple text input field can be built that is opened via hotkey and always remains in the foreground. With *Esc* it is immediately closed and the content is copied to the clipboard.
