@@ -591,4 +591,4 @@ I have tried to put all my experience from years of working with automation scri
 
 If you have any questions, suggestions for improvement or if you yourself find useful ideas for everyone to present in this guide, please feel free to contact me at info.github@cmuessig.de.
 
-© Christoph Müßig
+(c) Mia Muessig
